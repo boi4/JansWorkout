@@ -2,7 +2,7 @@ using Toybox.Application.Storage;
 
 //
 // an entry in the storage consists of
-// [unixtime, progressionposition, [10,8,6,4,4]]
+// [unixtime, [10,8,6,4,4], progressionposition]
 //
 
 function loadWorkoutLogFromStorage(workoutType) {
@@ -17,6 +17,7 @@ function loadWorkoutLogFromStorage(workoutType) {
     return wl;
 }
 
+// TODO: use initialize instead of setters
 class WorkoutLog {
     var _workoutArray;
     var _workoutType;
@@ -34,12 +35,17 @@ class WorkoutLog {
     }
 
     function addWorkout(progressionPosition) {
-        //self._workoutLog.add()
-        1;
+        var arr = [Time.now().value(), workoutData[self._workoutType]["workoutMatrix"][progressionPosition], progressionPosition];
+        self._workoutArray.add(arr);
     }
 
     // return Progression Position of last workout
     function getLastPosition() {
-        return self._workoutArray[-1][1];
+        if (self._workoutArray.size() == 0) {
+            return null;
+        } else {
+            System.println(self._workoutArray[self._workoutArray.size() - 1][2]);
+            return self._workoutArray[self._workoutArray.size() - 1][2];
+        }
     }
 }
